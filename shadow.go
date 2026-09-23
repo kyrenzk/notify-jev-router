@@ -54,7 +54,8 @@ func DiffPlans(legacy, resolved []Destination) PlanDiff {
 	var reqMismatch []DestinationPair
 
 	for k, d := range res {
-		if old, ok := leg[k]; !ok {
+		old, ok := leg[k]
+		if !ok {
 			added = append(added, d)
 			continue
 		}
