@@ -1,0 +1,30 @@
+name: Integration (live Jev)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 15 * * *"
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache-dependency-path: go.sum
+      - name: Live Jev integration
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          JEV_MODEL: ${{ vars.JEV_MODEL }}
+        run: |
+          if [ -z "$TYPESAFE_API_KEY" ]; then
+            echo "TYPESAFE_API_KEY not configured; skipping live Jev tests."
+            exit 0
+          fi
+          if [ -z "$JEV_MODEL" ]; then
+            echo "JEV_MODEL repository variable not set; skipping."
+            exit 0
+          fi
+          go test -tags=integration -count=1 ./...

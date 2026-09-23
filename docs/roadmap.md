@@ -1,11 +1,11 @@
 # ロードマップ
 
-## フェーズ 0 — 全体設定（現在）
+## フェーズ 0 — 全体設定
 
 - [x] 背景・目的・ゴールの文書化
 - [x] アーキテクチャと Routing モデルの草案
-- [ ] オープン設計判断 3 件の決定（[routing-model.md](routing-model.md) 末尾）
-- [ ] QuestionSet v0.1.0 の YAML 凍結
+- [x] オープン設計判断 3 件の決定（[ADR 002–004](decisions/002-partial-fallback-on-low-confidence.md)）
+- [x] QuestionSet v0.1.0（Go embed、`questions/v0_1_0.go`）
 
 ## フェーズ 1 — コアライブラリ（MVP / v0.1.0）
 
@@ -16,7 +16,7 @@
 - [x] `Interpreter` + 部分フォールバック
 - [x] ユニットテスト（録画 JSON fixture）
 
-**MVP の完了条件（v0.1.0）**: 次の 3 シナリオがテストで green。空 Plan / marketing ルートは **スコープ外**（Issue #1）。
+**MVP の完了条件（v0.1.0）**: 次の 3 シナリオがテストで green。
 
 | # | シナリオ |
 |---|----------|
@@ -26,18 +26,20 @@
 
 ## フェーズ 2 — 運用品質
 
-- [ ] QuestionSet embed + semver
-- [ ] `slog` 構造化ログ / optional OTel
+- [x] Shadow mode（`ShadowResolve`, metrics, [shadow-pilot.md](shadow-pilot.md)）
+- [x] 例: `examples/mockdemo`（キー不要）
+- [x] Optional live Jev integration（`integration` build tag + workflow）
+- [ ] QuestionSet embed の semver 運用自動化
+- [ ] `slog` / OTel の拡張サンプル
 - [ ] ベンチ（Resolve p99）
-- [ ] 例: `examples/minimal` ホスト疑似コード
 
 ## フェーズ 3 — OSS 公開
 
-- [ ] LICENSE（Apache-2.0 or MIT）
-- [ ] CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md
-- [ ] README 英語版充実、godoc
-- [ ] Private → Public リポジトリ切替
-- [ ] 初回 tag `v0.1.0`
+- [x] LICENSE（Apache-2.0）
+- [x] CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md
+- [x] README 英語 + Production readiness、日本語要約
+- [ ] Private → Public リポジトリ切替（merge 後 maintainer — [RELEASE_CHECKLIST.md](../.github/RELEASE_CHECKLIST.md)）
+- [ ] GitHub Release `v0.1.0`（tag 付与後）
 
 ## フェーズ 4 — エコシステム（任意）
 
@@ -51,9 +53,9 @@
 
 | マイルストーン | 内容 |
 |----------------|------|
-| **M0** | ドキュメント合意（今） |
+| **M0** | ドキュメント合意 |
 | **M1** | MVP テスト 3 本 |
-| **M2** | 社内 1 サービスで shadow mode（Plan のみログ、配送は既存ルール） |
-| **M3** | 本番カナリア + OSS 公開 |
+| **M2** | 社内 1 サービスで shadow mode（[shadow-pilot.md](shadow-pilot.md)） |
+| **M3** | OSS 公開 + Release v0.1.0 |
 
 Shadow mode: 既存ルータと Plan を比較し、差分メトリクスを取ってから切替することを推奨します。
