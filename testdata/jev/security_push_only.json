@@ -1,0 +1,29 @@
+{
+  "model": "jev-test-1.0.0",
+  "answers": {
+    "primary_strategy": {
+      "type": "choice",
+      "choice": "push_only",
+      "probabilities": {
+        "push_only": 0.8,
+        "email_only": 0.1,
+        "email_and_push": 0.1
+      },
+      "confidence": 0.85
+    },
+    "push_fanout": {
+      "type": "choice",
+      "choice": "last_active_only",
+      "probabilities": {
+        "last_active_only": 0.7,
+        "all_devices": 0.2,
+        "none": 0.1
+      },
+      "confidence": 0.8
+    }
+  },
+  "usage": {
+    "input_tokens": 1,
+    "output_tokens": 1
+  }
+}
