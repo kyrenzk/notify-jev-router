@@ -1,6 +1,6 @@
 package notifyjev
 
-// Category is the notification policy bucket used for QuestionSet and fallback lookup.
+// Category identifies the v0.1.0 routing policy bucket (security, billing, transactional).
 type Category string
 
 const (
