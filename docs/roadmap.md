@@ -7,22 +7,22 @@
 - [ ] オープン設計判断 3 件の決定（[routing-model.md](routing-model.md) 末尾）
 - [ ] QuestionSet v0.1.0 の YAML 凍結
 
-## フェーズ 1 — コアライブラリ（MVP）
+## フェーズ 1 — コアライブラリ（MVP / v0.1.0）
 
-- [ ] `go.mod` / モジュール `github.com/kyrenzk/notify-jev-router`
-- [ ] `RoutingContext`, `RoutingPlan`, validate（PII 拒否）
-- [ ] `PolicyEngine`（security recovery must 等）
-- [ ] `JevClient` インターフェース + jev-go アダプタ
-- [ ] `Interpreter` + 部分フォールバック
-- [ ] ユニットテスト（録画 JSON fixture）
+- [x] `go.mod` / モジュール `github.com/kyrenzk/notify-jev-router`
+- [x] `RoutingContext`, `RoutingPlan`, validate（PII 拒否）
+- [x] `PolicyEngine`（security recovery must 等）
+- [x] `JevClient` インターフェース + jev-go アダプタ
+- [x] `Interpreter` + 部分フォールバック
+- [x] ユニットテスト（録画 JSON fixture）
 
-**MVP の完了条件**: 表の 3 シナリオがテストで green
+**MVP の完了条件（v0.1.0）**: 次の 3 シナリオがテストで green。空 Plan / marketing ルートは **スコープ外**（Issue #1）。
 
 | # | シナリオ |
 |---|----------|
-| 1 | security.new_login → primary + recovery + push all |
-| 2 | marketing + prefs OFF → skip または empty plan |
-| 3 | Jev エラー → billing high フォールバック |
+| 1 | security.new_login → primary + recovery (required) + push all_devices |
+| 2 | Jev API 失敗 → billing critical フォールバック（`FallbackMode=full`） |
+| 3 | Policy must — Jev が recovery を付けなくても recovery Required が残る |
 
 ## フェーズ 2 — 運用品質
 

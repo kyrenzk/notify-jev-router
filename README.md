@@ -9,7 +9,7 @@
 | 項目 | 状態 |
 |------|------|
 | リポジトリ | Private（動作・設計が固まり次第 OSS 公開予定） |
-| 実装 | 設計・ドキュメント段階 |
+| 実装 | v0.1.0 MVP（ルーティングコア） |
 | 言語 | Go 1.22+ |
 
 ## ドキュメント
@@ -21,6 +21,61 @@
 | [ルーティング判断モデル](docs/routing-model.md) | Jev への入力・質問・出力（RoutingPlan）の考え方 |
 | [制約と安全](docs/constraints.md) | PII 禁止、信頼度、フォールバック、監査 |
 | [ロードマップ](docs/roadmap.md) | フェーズと公開条件 |
+
+## クイックスタート（ホスト疑似コード）
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"os"
+
+	jev "github.com/havlan/jev-go"
+	notifyjev "github.com/kyrenzk/notify-jev-router"
+)
+
+func main() {
+	jc, err := jev.New(jev.Config{
+		APIKey: os.Getenv("TYPESAFE_API_KEY"),
+		Model:  os.Getenv("JEV_MODEL"), // 本番は jev-x.y.z にピン留め
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	router, err := notifyjev.New(notifyjev.Config{
+		JevClient: notifyjev.NewJevGoAdapter(jc, os.Getenv("JEV_MODEL")),
+		Model:     os.Getenv("JEV_MODEL"),
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	plan, err := router.Resolve(context.Background(), notifyjev.ResolveInput{
+		Context: notifyjev.RoutingContext{
+			EventID:    "evt-123",
+			TemplateID: "security.new_login",
+			Category:   notifyjev.CategorySecurity,
+			Severity:   notifyjev.SeverityCritical,
+			Locale:     "ja-JP",
+			UserPrefs: notifyjev.UserPrefs{PushEnabled: true},
+			Capabilities: notifyjev.Capabilities{
+				EmailVerified:    true,
+				PushDeviceCount:  2,
+				HasRecoveryEmail: true,
+			},
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	_ = plan // → ホストがチャネルワーカーへ配送
+}
+```
+
+`go test ./...` で fixture ベースのテストが実行できます（live Jev API 不要）。
 
 ## 位置づけ（一行）
 
