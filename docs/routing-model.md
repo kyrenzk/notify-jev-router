@@ -159,10 +159,10 @@ Jev 不可時の **安全側** デフォルト（例）。
 
 ---
 
-## オープンな設計判断（要レビュー）
+## 設計判断（ADR で確定）
 
-1. **低 confidence 時**: 全体フォールバック vs 質問単位部分フォールバック
-2. **security 系で Jev をスキップ** し Policy のみにするか（コスト・レイテンシ vs 説明可能性）
-3. **marketing** を Jev に載せるか、静的 prefs のみにするか（規制リスク）
-
-これらは実装開始前に Issue で決める想定です。
+| テーマ | 決定 | ADR |
+|--------|------|-----|
+| 低 confidence 時 | 質問単位の部分フォールバック | [002](decisions/002-partial-fallback-on-low-confidence.md) |
+| security で Jev をスキップするか | スキップしない（Policy + Jev） | [003](decisions/003-security-jev-not-skipped.md) |
+| marketing | v0.1.0 はスコープ外（静的 prefs） | [004](decisions/004-marketing-out-of-scope.md) |
