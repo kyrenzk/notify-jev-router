@@ -8,8 +8,9 @@ Hosts pass **non-PII** `RoutingContext` (template, category, severity, prefs, ca
 
 | Item | State |
 |------|--------|
+| Repository | Public |
 | License | Apache-2.0 |
-| Version | v0.1.0 (routing core) |
+| Version | [v0.1.0](https://github.com/kyrenzk/notify-jev-router/releases/tag/v0.1.0) |
 | Go | 1.22+ |
 
 ## Quick start (no API key)

@@ -38,8 +38,8 @@
 - [x] LICENSE（Apache-2.0）
 - [x] CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md
 - [x] README 英語 + Production readiness、日本語要約
-- [ ] Private → Public リポジトリ切替（merge 後 maintainer — [RELEASE_CHECKLIST.md](../.github/RELEASE_CHECKLIST.md)）
-- [ ] GitHub Release `v0.1.0`（tag 付与後）
+- [x] Private → Public リポジトリ切替
+- [x] GitHub Release `v0.1.0`
 
 ## フェーズ 4 — エコシステム（任意）
 
